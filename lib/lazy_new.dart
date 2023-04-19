@@ -1,8 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
+
 import 'internet_not_connected.dart';
 import 'main.dart';
 
@@ -21,11 +22,55 @@ class _Lazyy_NewState extends State<Lazyy_New> {
   bool isLoadingVertical = false;
   final int increment = 5;
 
+  List<DocumentSnapshot> imageDocuments = [];
+  final _scrollController = ScrollController();
+  final _limit = 4;
+  bool _isLoading = false;
+
   @override
   void initState() {
+    _fetchData();
     _loadMoreVertical();
     //  _loadMoreHorizontal();
+
     super.initState();
+  }
+
+  Future<void> _fetchData() async {
+    if (_isLoading) {
+      return;
+    }
+    setState(() {
+      _isLoading = true;
+    });
+    isConnected = await checkInternetConnection();
+    if (!isConnected) {
+      // const CupertinoActivityIndicator();
+      const InternetNotAvailable();
+      setState(() {
+        _isLoading = false;
+      });
+      return;
+    }
+    QuerySnapshot querySnapshot;
+    if (imageDocuments.isEmpty) {
+      querySnapshot = await FirebaseFirestore.instance
+          .collection('Dynamic-Images')
+          //  .orderBy('timestamp', descending: true)
+          .limit(_limit)
+          .get();
+    } else {
+      querySnapshot = await FirebaseFirestore.instance
+          .collection('Dynamic-Images')
+          //.orderBy('timestamp', descending: true)
+          .startAfterDocument(imageDocuments.last)
+          .limit(_limit)
+          .get();
+    }
+    setState(() {
+      imageDocuments.addAll(querySnapshot.docs);
+      _isLoading = false;
+    });
   }
 
   Future _loadMoreVertical() async {
@@ -44,9 +89,8 @@ class _Lazyy_NewState extends State<Lazyy_New> {
     // Add in an artificial delay
     await Future.delayed(const Duration(seconds: 1));
 
-    verticalData.addAll(
-        List.generate(increment, (index) => verticalData.length + index));
-
+    //verticalData.addAll(List.generate(increment, (index) => verticalData.length + index));
+    _fetchData();
     setState(() {
       isLoadingVertical = false;
     });
@@ -75,8 +119,7 @@ class _Lazyy_NewState extends State<Lazyy_New> {
             ),
             onPressed: () {
               FirebaseAuth.instance.signOut();
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Loginpage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const Loginpage()));
             },
           ),
         ],
@@ -93,13 +136,13 @@ class _Lazyy_NewState extends State<Lazyy_New> {
                     ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: verticalData.length + 1,
+                      itemCount: imageDocuments.length + 1,
                       itemBuilder: (context, position) {
-                        if (position == verticalData.length) {
-                          return const Center(
-                              child: CircularProgressIndicator());
+                        if (position == imageDocuments.length) {
+                          return const Center(child: CircularProgressIndicator());
                         }
-                        return DemoItem(position);
+                        final document = imageDocuments[position];
+                        return DemoItem(position, document);
                       },
                     ),
                   ],
@@ -129,9 +172,11 @@ class _Lazyy_NewState extends State<Lazyy_New> {
 
 class DemoItem extends StatelessWidget {
   final int position;
+  final DocumentSnapshot<Object?> document;
 
   const DemoItem(
-    this.position, {
+    this.position,
+    this.document, {
     Key? key,
   }) : super(key: key);
 
@@ -151,8 +196,13 @@ class DemoItem extends StatelessWidget {
                   SizedBox(
                     height: 120.0,
                     width: 220.0,
-                    child: Image.network(
-                        'https://blog.logrocket.com/wp-content/uploads/2021/04/Building-Flutter-desktop-app-tutorial-examples.png'),
+                    child: Ink.image(
+                      image: NetworkImage(document['image']),
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      height: 200,
+                      //   onTap: () => print('Image tapped'),
+                    ),
                   ),
                   const SizedBox(width: 25.0),
                   Text("Item $position"),
