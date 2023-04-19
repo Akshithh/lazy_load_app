@@ -3,7 +3,6 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
-
 import 'internet_not_connected.dart';
 import 'main.dart';
 
@@ -127,7 +126,8 @@ class _Lazyy_NewState extends State<Lazyy_New> {
             ),
             onPressed: () {
               FirebaseAuth.instance.signOut();
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const Loginpage()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Loginpage()));
             },
           ),
         ],
@@ -147,7 +147,8 @@ class _Lazyy_NewState extends State<Lazyy_New> {
                       itemCount: imageDocuments.length + 1,
                       itemBuilder: (context, position) {
                         if (position == imageDocuments.length) {
-                          return const Center(child: CircularProgressIndicator());
+                          return const Center(
+                              child: CircularProgressIndicator());
                         }
                         final document = imageDocuments[position];
                         return DemoItem(position, document);
@@ -213,10 +214,10 @@ class DemoItem extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 25.0),
-                  Text("Item $position",
-                  style: const TextStyle(
-                    fontSize: 20
-                  ),),
+                  Text(
+                    "Item $position",
+                    style: const TextStyle(fontSize: 20),
+                  ),
                 ],
               ),
               const Text('')

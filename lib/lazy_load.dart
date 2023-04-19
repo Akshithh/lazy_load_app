@@ -105,7 +105,7 @@ class _LazyLoaddState extends State<LazyLoadd> {
 
   final _scrollController = ScrollController();
   final _limit = 4;
-  List<DocumentSnapshot> _documents = [];
+  final List<DocumentSnapshot> _documents = [];
   bool _isLoading = false;
   bool isConnected = true;
 
