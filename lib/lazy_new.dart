@@ -66,6 +66,14 @@ class _Lazyy_NewState extends State<Lazyy_New> {
           .startAfterDocument(imageDocuments.last)
           .limit(_limit)
           .get();
+      if (querySnapshot.docs.isEmpty) {
+        // All images have been fetched, start over again
+        imageDocuments.length;
+        querySnapshot = await FirebaseFirestore.instance
+            .collection('Dynamic-Images')
+            .limit(_limit)
+            .get();
+      }
     }
     setState(() {
       imageDocuments.addAll(querySnapshot.docs);
@@ -194,8 +202,8 @@ class DemoItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(
-                    height: 120.0,
-                    width: 220.0,
+                    height: 150.0,
+                    width: 250.0,
                     child: Ink.image(
                       image: NetworkImage(document['image']),
                       fit: BoxFit.cover,
@@ -205,7 +213,10 @@ class DemoItem extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 25.0),
-                  Text("Item $position"),
+                  Text("Item $position",
+                  style: const TextStyle(
+                    fontSize: 20
+                  ),),
                 ],
               ),
               const Text('')
