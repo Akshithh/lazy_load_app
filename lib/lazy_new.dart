@@ -22,7 +22,6 @@ class _Lazyy_NewState extends State<Lazyy_New> {
   final int increment = 5;
 
   List<DocumentSnapshot> imageDocuments = [];
-  final _scrollController = ScrollController();
   final _limit = 4;
   bool _isLoading = false;
 
