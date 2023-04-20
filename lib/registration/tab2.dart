@@ -1,5 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:lazy_load_app/lazy_new.dart';
 import '../lazy_load.dart';
 import 'Auth.dart';
 
@@ -171,7 +172,7 @@ class _Tab2State extends State<Tab2> {
                   if (isConnected) {
                     if (value == null) {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => LazyLoadd()));
+                          MaterialPageRoute(builder: (context) => Lazyy_New(title: 'Lazy Load Akshith',)));
                       final snackbar =
                       const SnackBar(content: Text("Account Created"),
                         backgroundColor: Colors.orange,);
