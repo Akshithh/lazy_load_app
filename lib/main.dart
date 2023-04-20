@@ -9,7 +9,7 @@ import 'package:lazy_load_app/registration/tab2.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp();
+  await Firebase.initializeApp();
   return runApp(
     const MaterialApp(
       debugShowCheckedModeBanner: false,
