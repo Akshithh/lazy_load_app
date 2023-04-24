@@ -14,7 +14,7 @@ class Tab2 extends StatefulWidget {
 class _Tab2State extends State<Tab2> {
   bool passwordVisibility = true;
   bool confirmpasswordVisibility = true;
-  bool isConnected=true;
+  bool isConnected = true;
 
   TextEditingController emailTextEditingController = TextEditingController();
   TextEditingController passWordTextEditingController = TextEditingController();
@@ -29,7 +29,6 @@ class _Tab2State extends State<Tab2> {
       return true;
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -153,59 +152,55 @@ class _Tab2State extends State<Tab2> {
               padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 12),
               //  shape: StadiumBorder()
             ),
-            onPressed: ()
-            {
+            onPressed: () {
               // Navigator.push(
               //   context,
               //   MaterialPageRoute(builder: (context) => const FirstPage()),
               // );
               if (passWordTextEditingController.text ==
-                  confirmPassWordTextEditingController.text)
-              {
+                  confirmPassWordTextEditingController.text) {
                 Auth()
                     .signUpWithEmailAndPassword(
                         emailTextEditingController.text, //parameter
                         passWordTextEditingController.text)
-                    .then((value)
-                async {
+                    .then((value) async {
                   isConnected = await checkInternetConnection();
                   if (isConnected) {
                     if (value == null) {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Lazyy_New(title: 'Lazy Load Akshith',)));
-                      final snackbar =
-                      const SnackBar(content: Text("Account Created"),
-                        backgroundColor: Colors.orange,);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Lazyy_New(
+                                    title: 'Lazy Load ',
+                                  )));
+                      final snackbar = const SnackBar(
+                        content: Text("Account Created"),
+                        backgroundColor: Colors.orange,
+                      );
                       ScaffoldMessenger.of(context).showSnackBar(snackbar);
-                    }
-                    else {
-                      final snackbar =
-                      SnackBar(content: Text("Wrong email/password"),
+                    } else {
+                      final snackbar = SnackBar(
+                          content: Text("Wrong email/password"),
                           backgroundColor: Colors.orange);
                       ScaffoldMessenger.of(context).showSnackBar(snackbar);
                     }
-                  }
-                  else {
+                  } else {
                     final snackBar = const SnackBar(
                       content: Text('No internet connection'),
                       backgroundColor: Colors.red,
                     );
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   }
-                }
-                  );
-              }
-              else
-              {
+                });
+              } else {
                 (passWordTextEditingController.text !=
                     confirmPassWordTextEditingController.text);
-                final snackbar =
-                SnackBar(content: Text("Wrong confirm password"),backgroundColor: Colors.orange);
+                final snackbar = SnackBar(
+                    content: Text("Wrong confirm password"),
+                    backgroundColor: Colors.orange);
                 ScaffoldMessenger.of(context).showSnackBar(snackbar);
               }
             },
-
-
             child: const Text(
               'Create account',
               style: TextStyle(fontSize: 18),
@@ -216,8 +211,3 @@ class _Tab2State extends State<Tab2> {
     );
   }
 }
-
-
-
-
-

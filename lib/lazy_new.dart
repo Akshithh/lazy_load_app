@@ -3,6 +3,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 import 'internet_not_connected.dart';
 import 'main.dart';
 
@@ -157,16 +158,9 @@ class _Lazyy_NewState extends State<Lazyy_New> {
                 ),
               ),
             ),
-            if (!isConnected)
-              const Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: CircularProgressIndicator(),
-                ),
-              ),
+            if (isLoadingVertical)
+              Shimmer(
+                child: Container(),),
             Padding(
               padding: const EdgeInsets.all(0),
               child: isConnected ? null : const InternetNotAvailable(),
