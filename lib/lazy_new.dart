@@ -17,7 +17,7 @@ class Lazyy_New extends StatefulWidget {
 }
 
 class _Lazyy_NewState extends State<Lazyy_New> {
-  List<int> verticalData = [];
+  // List<int> verticalData = [];
   bool isConnected = true;
   bool isLoadingVertical = false;
   final int increment = 5;
@@ -136,7 +136,7 @@ class _Lazyy_NewState extends State<Lazyy_New> {
         child: Stack(
           children: [
             LazyLoadScrollView(
-              isLoading: isLoadingVertical,
+              // isLoading: isLoadingVertical,
               onEndOfPage: () => _loadMoreVertical(),
               child: Scrollbar(
                 child: ListView(
@@ -160,7 +160,8 @@ class _Lazyy_NewState extends State<Lazyy_New> {
             ),
             if (isLoadingVertical)
               Shimmer(
-                child: Container(),),
+                child: Container(),
+              ),
             Padding(
               padding: const EdgeInsets.all(0),
               child: isConnected ? null : const InternetNotAvailable(),

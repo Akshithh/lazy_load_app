@@ -1,7 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lazy_load_app/lazy_new.dart';
-import '../lazy_load.dart';
 import 'Auth.dart';
 
 class Tab2 extends StatefulWidget {
@@ -173,11 +173,14 @@ class _Tab2State extends State<Tab2> {
                               builder: (context) => Lazyy_New(
                                     title: 'Lazy Load ',
                                   )));
-                      final snackbar = const SnackBar(
-                        content: Text("Account Created"),
-                        backgroundColor: Colors.orange,
+                      Fluttertoast.showToast(
+                        msg: 'Account Created',
+                        toastLength: Toast.LENGTH_SHORT,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.black,
+                        textColor: Colors.white,
+                        fontSize: 16,
                       );
-                      ScaffoldMessenger.of(context).showSnackBar(snackbar);
                     } else {
                       final snackbar = SnackBar(
                           content: Text("Wrong email/password"),
